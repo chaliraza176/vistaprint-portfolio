@@ -90,7 +90,23 @@ export const searchProducts = async (query) => {
 };
 
 // ============ USER AUTH ============
+// Demo mode - allows login without backend for deployed demo
+const DEMO_MODE = !import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL.includes('localhost');
+
 export const registerUser = async (userData) => {
+    // Demo mode - simulate registration
+    if (DEMO_MODE) {
+        const demoUser = {
+            _id: 'demo_' + Date.now(),
+            name: userData.name || 'Demo User',
+            email: userData.email,
+            token: 'demo_token_' + Date.now(),
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem('user', JSON.stringify(demoUser));
+        return { user: demoUser, message: 'Registration successful (Demo Mode)' };
+    }
+
     try {
         const response = await api.post('/users/register', userData);
         return response.data;
@@ -100,6 +116,19 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
+    // Demo mode - simulate login with any credentials
+    if (DEMO_MODE) {
+        const demoUser = {
+            _id: 'demo_' + Date.now(),
+            name: credentials.email.split('@')[0] || 'Demo User',
+            email: credentials.email,
+            token: 'demo_token_' + Date.now(),
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem('user', JSON.stringify(demoUser));
+        return { user: demoUser, message: 'Login successful (Demo Mode)' };
+    }
+
     try {
         const response = await api.post('/users/login', credentials);
         if (response.data.user) {

@@ -81,7 +81,7 @@ const HomePage = () => {
             {/* Hero Section - Premium Marketing Materials */}
             <section className="hero-section">
                 <img
-                    src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=1920&q=80"
+                    src="/assets/hero-bg.png"
                     alt="Premium Marketing Materials"
                     className="hero-bg"
                 />
